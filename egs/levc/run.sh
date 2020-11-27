@@ -3,6 +3,8 @@
 script_dir=$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)
 VOC_DIR=$script_dir/../../
 
+# directory that contains srouce audio file to be extracted from, wav and mp3, or video supported
+src_audio_root=/home/featurize/data/raw_audios
 # Directory that contains all wav files
 # **CHANGE** this to your database path
 db_root=/home/featurize/data/train_data/levc_wavs
@@ -64,6 +66,18 @@ feat_typ="logmelspectrogram"
 data_root=data/$spk                        # train/dev/eval splitted data
 dump_org_dir=$dumpdir/$spk/$feat_typ/org   # extracted features (pair of <wave, feats>)
 dump_norm_dir=$dumpdir/$spk/$feat_typ/norm # extracted features (pair of <wave, feats>)
+
+
+if [ ${stage} -le -1 ] && [ ${stop_stage} -ge -1 ]; then
+    echo "stage -1: extract wavs from mp3"
+    if [ -z $db_root ] || [ -z $src_audio_root ] ; then
+      echo "ERROR: DB ROOT and SOURCE AUDIO ROOT must be specified for wav extraction."
+      echo "  Use option --db-root \${path_contains_wav_files} --source-audio-root \${path_contains_source_audios}"
+      exit 1
+    fi
+
+    python $VOC_DIR/extract_wavs.py $src_audio_root $db_root 16000
+fi
 
 if [ ${stage} -le 0 ] && [ ${stop_stage} -ge 0 ]; then
     echo "stage 0: train/dev/eval split"
