@@ -33,14 +33,15 @@ def extract_wavs(src_root, db_root, sr):
         print('extracting in ' + root)
         for fn in files:
             try:
+                audio_filepath = os.path.join(root, fn)
                 fn_base = os.path.splitext(os.path.basename(audio_filepath))[0]
                 wav_filepath = os.path.join(db_root, fn_base + '.wav')
                 if not os.path.exists(wav_filepath):
-                    extract_wav(os.path.join(root, fn), sr, wav_filepath)
+                    extract_wav(audio_filepath, sr, wav_filepath)
             except SystemExit:
                 break
-            except:
-                pass
+            except Exception as e:
+                print(e)
 
     print("Done.")
 
