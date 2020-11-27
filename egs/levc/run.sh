@@ -22,8 +22,8 @@ limit=1000000
 # waveform global gain normalization scale
 global_gain_scale=0.55
 
-stage=0
-stop_stage=0
+stage=-1
+stop_stage=-1
 
 # Hyper parameters (.json)
 # **CHANGE** here to your own hparams
