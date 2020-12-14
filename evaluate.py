@@ -77,6 +77,8 @@ def get_data_loader(data_dir, collate_fn):
             num_workers=hparams.num_workers, sampler=None, shuffle=False,
             collate_fn=dummy_collate, pin_memory=hparams.pin_memory)
     else:
+        #print('len(X0): {}, len(C): {}'.format(len(X), len(C)))
+
         assert len(X) == len(C)
         if C[0].shape[-1] != hparams.cin_channels:
             raise RuntimeError(
@@ -160,8 +162,10 @@ if __name__ == "__main__":
     cin_pad = hparams.cin_pad
     file_idx = 0
     for idx, (x, y, c, g, input_lengths) in enumerate(test_data_loader):
+        #print('c.shape: ', c.shape)
         if cin_pad > 0:
             c = F.pad(c, pad=(cin_pad, cin_pad), mode="replicate")
+        #print('c.shape2: ', c.shape)
 
         # B x 1 x T
         if x[0] is not None:

@@ -273,6 +273,7 @@ class WaveNet(nn.Module):
             B = c.shape[0]
             if self.upsample_net is not None:
                 c = self.upsample_net(c)
+                #print('/home/featurize/nlp/wavenet_vocoder/wavenet_vocoder/wavenet.py c.size(-1)={}, T={}'.format(c.size(-1), T))
                 assert c.size(-1) == T
             if c.size(-1) == T:
                 c = c.transpose(1, 2).contiguous()

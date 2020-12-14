@@ -127,7 +127,8 @@ if [ ${stage} -le 3 ] && [ ${stop_stage} -ge 3 ]; then
     fi
     name=$(basename $eval_checkpoint)
     name=${name/.pth/}
-    for s in $dev_set $eval_set;
+    #for s in $eval_set;
+    for s in $dev_set;
     do
       dst_dir=$expdir/generated/$name/$s
       python $VOC_DIR/evaluate.py $dump_norm_dir/$s $eval_checkpoint $dst_dir \

@@ -22,7 +22,7 @@ setup(name='wavenet_vocoder',
           "tensorboardX",
           "nnmnkwii >= 0.0.11",
           "scikit-learn",
-          "librosa",
+          "librosa < 0.8",
       ],
       extras_require={
           "test": [

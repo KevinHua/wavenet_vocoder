@@ -24,7 +24,10 @@ import torch
 import numpy as np
 from nnmnkwii import preprocessing as P
 from tqdm import tqdm
+
 import librosa
+import soundfile
+from torch.nn import functional as F
 
 from wavenet_vocoder.util import is_mulaw_quantize, is_mulaw, is_raw
 
@@ -199,6 +202,7 @@ if __name__ == "__main__":
     initial_value = args["--initial-value"]
     initial_value = None if initial_value is None else float(initial_value)
     conditional_path = args["--conditional"]
+    print('conditional: ', conditional_path);
 
     file_name_suffix = args["--file-name-suffix"]
     output_html = args["--output-html"]
@@ -222,6 +226,9 @@ if __name__ == "__main__":
     else:
         c = None
 
+    print('c')
+    print(c)
+
     from train import build_model
 
     # Model
@@ -237,13 +244,24 @@ if __name__ == "__main__":
     checkpoint_name = splitext(basename(checkpoint_path))[0]
 
     os.makedirs(dst_dir, exist_ok=True)
-    dst_wav_path = join(dst_dir, "{}{}.wav".format(checkpoint_name, file_name_suffix))
+    dst_wav_path = join(dst_dir, "{}-gen.wav".format(os.path.splitext(os.path.basename(conditional_path))))
 
     # DO generate
-    waveform = batch_wavegen(model, length, c=c, g=speaker_id, initial_value=initial_value, fast=True)
+    c = torch.from_numpy(np.array([c.T]))
+    cin_pad = hparams.cin_pad
+    if cin_pad > 0:
+        c = F.pad(c, pad=(cin_pad, cin_pad), mode="replicate")
+
+    print('length={}'.format(length))
+    waveform = batch_wavegen(model, c=c, g=speaker_id, fast=True)
+    print('generated waveform:')
+    print(waveform)
+    print(waveform.shape)
+
+    waveform = np.clip(waveform, -1.0, 1.0)
 
     # save
-    librosa.output.write_wav(dst_wav_path, waveform, sr=hparams.sample_rate)
-
+    librosa.output.write_wav(dst_wav_path, waveform[0], sr=hparams.sample_rate)
+    #soundfile.write(dst_wav_path, waveform, hparams.sample_rate)
     print("Finished! Check out {} for generated audio samples.".format(dst_dir))
     sys.exit(0)
