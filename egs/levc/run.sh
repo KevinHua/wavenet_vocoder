@@ -13,8 +13,8 @@ spk="levc"
 dumpdir=dump
 
 # train/dev/eval split
-dev_size=100
-eval_size=100
+dev_size=1000
+eval_size=1000
 # Maximum size of train/dev/eval data (in hours).
 # set small value (e.g. 0.2) for testing
 limit=1000000
