@@ -113,7 +113,8 @@ def logmelspectrogram_(y, pad_mode="reflect"):
 def logmelspectrogram(y, pad_mode="reflect"):
     """adapted to autovc
     """
-    return autovc_melsp.log_melsp_01(y)
+    S = autovc_melsp.log_melsp_01(y)
+    return S
 
 def get_hop_size():
     hop_size = hparams.hop_size
