@@ -5,6 +5,8 @@ from hparams import hparams
 from scipy.io import wavfile
 from nnmnkwii import preprocessing as P
 
+import auttovc_melsp
+
 
 def low_cut_filter(x, fs, cutoff=70):
     """APPLY LOW CUT FILTER.
@@ -98,7 +100,7 @@ def start_and_end_indices(quantized, silence_threshold=2):
     return start, end
 
 
-def logmelspectrogram(y, pad_mode="reflect"):
+def logmelspectrogram_(y, pad_mode="reflect"):
     """Same log-melspectrogram computation as espnet
     https://github.com/espnet/espnet
     from espnet.transform.spectrogram import logmelspectrogram
@@ -108,6 +110,10 @@ def logmelspectrogram(y, pad_mode="reflect"):
     S = np.log10(np.maximum(S, 1e-10))
     return S
 
+def logmelspectrogram(y, pad_mode="reflect"):
+    """adapted to autovc
+    """
+    return auttovc_melsp.log_melsp_01(y)
 
 def get_hop_size():
     hop_size = hparams.hop_size
