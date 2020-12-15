@@ -5,7 +5,7 @@ from hparams import hparams
 from scipy.io import wavfile
 from nnmnkwii import preprocessing as P
 
-import auttovc_melsp
+import autovc_melsp
 
 
 def low_cut_filter(x, fs, cutoff=70):
@@ -113,7 +113,7 @@ def logmelspectrogram_(y, pad_mode="reflect"):
 def logmelspectrogram(y, pad_mode="reflect"):
     """adapted to autovc
     """
-    return auttovc_melsp.log_melsp_01(y)
+    return autovc_melsp.log_melsp_01(y)
 
 def get_hop_size():
     hop_size = hparams.hop_size
