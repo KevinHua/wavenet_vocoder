@@ -108,12 +108,15 @@ def logmelspectrogram_(y, pad_mode="reflect"):
     D = _stft(y, pad_mode=pad_mode)
     S = _linear_to_mel(np.abs(D))
     S = np.log10(np.maximum(S, 1e-10))
+    #print("D shape {}, S shape {}".format(str(D.shape), str(S.shape)))
+    # S shape (80, xxxxx)
     return S
 
 def logmelspectrogram(y, pad_mode="reflect"):
     """adapted to autovc
     """
-    S = autovc_melsp.log_melsp_01(y)
+    S = autovc_melsp.log_melsp_01(y).T
+    #print("S shape {}".format(str(S.shape)))
     return S
 
 def get_hop_size():
