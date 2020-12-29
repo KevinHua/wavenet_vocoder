@@ -23,7 +23,7 @@ import os
 from shutil import copy2
 from scipy.io import wavfile
 import numpy as np
-
+import random
 
 def read_wav_or_raw(src_file, is_raw):
     if is_raw:
@@ -79,6 +79,7 @@ if __name__ == "__main__":
         total_samples += len(x)
         total_hours = float(total_samples) / sr / 3600.0
         indices.append(idx)
+        random.shuffle(indices)
 
         if total_hours > limit:
             print("Total hours {:.3f} exceeded limit ({} hours).".format(total_hours, limit))
@@ -101,6 +102,7 @@ if __name__ == "__main__":
             dev_indices, test_indices = split(
                 dev_test_indices, test_size=test_size / (test_size + dev_size),
                 random_state=random_state)
+
         sets = [
             (sorted(train_indices), join(out_dir, "train_no_dev")),
             (sorted(dev_indices), join(out_dir, "dev")),

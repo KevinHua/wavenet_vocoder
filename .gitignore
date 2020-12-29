@@ -19,6 +19,8 @@ egs/*/mfcc
 egs/*/stft
 egs/*/tensorboard
 egs/*/wav*
+egs/levc/dump_with_zhths30/
+egs/levc/exp_with_zhths30/
 
 # Created by https://www.gitignore.io
 

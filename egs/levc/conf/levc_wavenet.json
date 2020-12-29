@@ -43,7 +43,7 @@
   "n_speakers": -1,
   "pin_memory": true,
   "num_workers": 2,
-  "batch_size": 16,
+  "batch_size": 2,
   "optimizer": "Adam",
   "optimizer_params": {
     "lr": 0.001,

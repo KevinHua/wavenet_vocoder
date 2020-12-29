@@ -13,8 +13,8 @@ spk="levc"
 dumpdir=dump
 
 # train/dev/eval split
-dev_size=1000
-eval_size=1000
+dev_size=50
+eval_size=50
 # Maximum size of train/dev/eval data (in hours).
 # set small value (e.g. 0.2) for testing
 limit=1000000
@@ -127,8 +127,8 @@ if [ ${stage} -le 3 ] && [ ${stop_stage} -ge 3 ]; then
     fi
     name=$(basename $eval_checkpoint)
     name=${name/.pth/}
-    #for s in $eval_set;
-    for s in $dev_set;
+    for s in $eval_set;
+    #for s in $dev_set;
     do
       dst_dir=$expdir/generated/$name/$s
       python $VOC_DIR/evaluate.py $dump_norm_dir/$s $eval_checkpoint $dst_dir \
